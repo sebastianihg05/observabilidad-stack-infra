@@ -1,0 +1,5 @@
+.env
+*.log
+!cloud-logs/*.json
+.DS_Store
+Thumbs.db
