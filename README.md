@@ -16,7 +16,6 @@ Curso: Taller Observabilidad Infraestructura con Stack Open Source (UNAB).
 | `grafana/provisioning/` | Datasources, dashboards y alertas |
 | `otel/` | Configuración del OpenTelemetry Collector |
 | `scripts/` | Generadores de logs y tráfico |
-| `evidencias/` | Capturas de Grafana y Jaeger |
 
 ## Uso
 
