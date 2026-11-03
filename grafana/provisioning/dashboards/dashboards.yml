@@ -1,0 +1,9 @@
+# de donde grafana carga los dashboards
+apiVersion: 1
+
+providers:
+  - name: 'default'
+    folder: ''
+    type: file
+    options:
+      path: /var/lib/grafana/dashboards
