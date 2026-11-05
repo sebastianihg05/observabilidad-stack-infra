@@ -2,7 +2,8 @@
 
 **Práctica Final Integradora** · Taller Observabilidad Infraestructura con Stack Open Source · Universidad Andrés Bello
 
-**Autor:** Sebastián
+**Autores:** Sebastián Hidalgo, Vanessa Lagos, Claudio Ojeda, Héctor Peña
+
 **Repositorio:** https://github.com/sebastianihg05/observabilidad-stack-infra
 
 Las capturas de pantalla se indican con marcadores de la forma `[CAPTURA: nombre]` y se entregan por separado.
@@ -16,7 +17,8 @@ Se desplegó con Docker Compose un stack de observabilidad que cubre los tres pi
 | Métricas | Prometheus, Node Exporter, agente SNMP simulado y SNMP Exporter |
 | Logs | Loki y Promtail |
 | Trazas | OpenTelemetry Collector, Jaeger y la aplicación de prueba HotROD |
-| Visualización y alertas | Grafana y un receptor de webhook simulado |
+
+Además, se complementó el sistema con visualizaciones y alertas utilizando Grafana y un receptor de webhook simulado.
 
 ### Entorno utilizado
 - Windows 11, Docker Desktop (motor 29.8.1), Git y Visual Studio Code.
@@ -300,9 +302,3 @@ Tras recrear Grafana, el dashboard, la regla de alerta, el contact point y la po
 - **Persistencia en Grafana.** Sin un volumen de datos, lo creado en la interfaz se pierde al recrear el contenedor. Por eso el dashboard y la alerta se exportaron a archivos de aprovisionamiento.
 - **Cuidado al exportar configuración.** Las exportaciones pueden traer valores ficticios (`[REDACTED]`) o elementos predeterminados que deben limpiarse antes de guardarlos.
 - **Ejecutar Git en la carpeta correcta.** Desde una carpeta superior, Git usó otro repositorio y los comandos fallaron. Conviene abrir el editor directamente en la carpeta del proyecto.
-
-### Mejoras posibles
-- Agregar un volumen persistente a Loki, Prometheus y Grafana.
-- Fijar las versiones de las imágenes de Jaeger, HotROD y OpenTelemetry (hoy se usa `latest`).
-- Incorporar alertas sobre la red y el disco, además de la CPU.
-- Reemplazar el receptor de webhook por un canal real, como un correo o un mensaje de chat.
