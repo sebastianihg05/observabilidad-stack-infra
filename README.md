@@ -7,7 +7,8 @@ Práctica Final Integradora: stack de observabilidad de código abierto levantad
 | Métricas | Prometheus, Node Exporter, SNMP Exporter y un agente SNMP simulado (`router_sim`) |
 | Logs | Loki y Promtail (pipeline JSON sobre logs de nube simulados) |
 | Trazas | OpenTelemetry Collector, Jaeger y la aplicación de prueba HotROD |
-| Visualización y alertas | Grafana (dashboard y alertas provisionados) y un receptor de webhook |
+
+Además, se complementó el sistema con visualizaciones y alertas utilizando Grafana y un receptor de webhook simulado.
 
 Curso: Taller Observabilidad Infraestructura con Stack Open Source (UNAB), semestre 2° 2026.
 
