@@ -86,8 +86,8 @@ La primera ejecución tarda varios minutos porque el agente SNMP (`net-snmp`) se
 
 **Validación.** En http://localhost:9090/targets los tres trabajos deben figurar en estado **UP**: `prometheus`, `node-exporter` y `snmp_router`.
 
-`[CAPTURA: 01-targets-prometheus]`
-`[CAPTURA: 04-docker-compose-ps]`
+![CAPTURA: 01-targets-prometheus](evidencias/01-targets-prometheus.png)
+![CAPTURA: 04-docker-compose-ps](evidencias/04-docker-compose-ps)
 
 **Consultas PromQL construidas** (en http://localhost:9090/graph):
 
@@ -103,8 +103,8 @@ Ancho de banda de entrada de la interfaz `eth0` en Mbps:
 rate(ifHCInOctets{instance="router_sim", ifDescr="eth0"}[1m]) * 8 / 1000000
 ```
 
-`[CAPTURA: 02-promql-cpu]`
-`[CAPTURA: 03-promql-mbps]`
+![CAPTURA: 02-promql-cpu](evidencias/02-promql-cpu.png)
+![CAPTURA: 03-promql-mbps](evidencias/03-promql-mbps.png)
 
 ### 1.3 Centralización de logs
 
@@ -126,7 +126,7 @@ bash scripts/generar_logs.sh
 {job="nube_simulada_seba", level="ERROR"}
 ```
 
-`[CAPTURA: 05-loki-level-error]`
+![CAPTURA: 05-loki-level-error](evidencias/05-loki-level-error.png)
 
 ### 1.4 Visualización y alertas
 
@@ -138,7 +138,7 @@ docker compose up -d grafana webhook
 
 Grafana queda disponible en http://localhost:3000. Las fuentes de datos Prometheus y Loki se cargan automáticamente desde `grafana/provisioning/datasources/datasources.yml`.
 
-`[CAPTURA: 06-datasources]`
+![CAPTURA: 06-datasources](evidencias/06-datasources.png)
 
 **Dashboard Operativo.** Se construyó un dashboard único con tres paneles obligatorios y uno adicional de CPU:
 
@@ -150,7 +150,7 @@ Grafana queda disponible en http://localhost:3000. Las fuentes de datos Promethe
 
 El dashboard se exportó a `grafana/dashboards/dashboard-operativo.json` y se carga automáticamente al iniciar Grafana. Tiene un refresco de 5 segundos y un rango de 15 minutos.
 
-`[CAPTURA: 07-dashboard-operativo]`
+![CAPTURA: 07-dashboard-operativo](evidencias/07-dashboard-operativo.png)
 
 **Alerta de CPU con webhook.** Se configuraron tres elementos:
 
@@ -166,10 +166,10 @@ docker logs obs_webhook --tail 40
 
 Luego el umbral se restableció a `75`. La configuración de la alerta quedó exportada en `grafana/provisioning/alerting/` (`reglas.yml`, `contact-points.yml` y `politicas.yml`).
 
-`[CAPTURA: 08-contact-point-test]`
-`[CAPTURA: 09-webhook-recibido]`
-`[CAPTURA: 10-alerta-firing]`
-`[CAPTURA: 11-politica-notificacion]`
+![CAPTURA: 08-contact-point-test](evidencias/08-contact-point-test.png)
+![CAPTURA: 09-webhook-recibido](evidencias/09-webhook-recibido.png)
+![CAPTURA: 10-alerta-firing](evidencias/10-alerta-firing.png)
+![CAPTURA: 11-politica-notificacion](evidencias/11-politica-notificacion.png)
 
 ### 1.5 Trazabilidad distribuida y APM
 
@@ -181,8 +181,8 @@ docker compose up -d jaeger otel-collector hotrod
 
 Para generar trazas se utilizó la interfaz de HotROD en http://localhost:8080, haciendo varias solicitudes desde los botones de cliente. En la interfaz de Jaeger (http://localhost:16686) se seleccionó el servicio `frontend` y se ejecutó **Find Traces**.
 
-`[CAPTURA: 12-hotrod]`
-`[CAPTURA: 13-jaeger-lista-trazas]`
+![CAPTURA: 12-hotrod](evidencias/12-hotrod.png)
+![CAPTURA: 13-jaeger-lista-trazas](evidencias/13-jaeger-lista-trazas.png)
 
 **Análisis de una transacción.** En una traza de la operación `GET /dispatch` se identificaron los tramos más largos:
 
@@ -193,7 +193,7 @@ Para generar trazas se utilizó la interfaz de HotROD en http://localhost:8080, 
 | 253 ms | mysql | SQL SELECT |
 | 219 ms | driver | FindNearest |
 
-`[CAPTURA: 14-jaeger-traza-mysql]`
+![CAPTURA: 14-jaeger-traza-mysql](evidencias/14-jaeger-traza-mysql.png)
 
 ### 1.6 Prueba de reproducibilidad
 
