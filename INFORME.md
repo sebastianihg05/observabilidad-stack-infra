@@ -87,7 +87,7 @@ La primera ejecución tarda varios minutos porque el agente SNMP (`net-snmp`) se
 **Validación.** En http://localhost:9090/targets los tres trabajos deben figurar en estado **UP**: `prometheus`, `node-exporter` y `snmp_router`.
 
 ![CAPTURA: 01-targets-prometheus](evidencias/01-targets-prometheus.png)
-![CAPTURA: 04-docker-compose-ps](evidencias/04-docker-compose-ps)
+![CAPTURA: 04-docker-compose-ps](evidencias/04-docker-compose-ps.png)
 
 **Consultas PromQL construidas** (en http://localhost:9090/graph):
 
