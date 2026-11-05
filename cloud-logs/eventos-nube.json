@@ -1,0 +1,5 @@
+{"eventTime":"2026-11-03T10:00:01Z","eventName":"LoginUsuario","severity":"INFO","user":"sebastian"}
+{"eventTime":"2026-11-03T10:00:03Z","eventName":"SubirArchivo","severity":"INFO","user":"sebastian"}
+{"eventTime":"2026-11-03T10:00:05Z","eventName":"EliminarArchivo","severity":"WARNING","user":"sebastian"}
+{"eventTime":"2026-11-03T10:00:07Z","eventName":"ErrorConexion","severity":"ERROR","user":"sebastian"}
+{"eventTime":"2026-11-03T10:00:09Z","eventName":"ReiniciarServicio","severity":"WARNING","user":"sebastian"}

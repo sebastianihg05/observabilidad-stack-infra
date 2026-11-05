@@ -1,0 +1,10 @@
+apiVersion: 1
+contactPoints:
+    - orgId: 1
+      name: webhook-seba
+      receivers:
+        - uid: c85354da-5357-4cf4-9459-8b35a09f4eef
+          type: webhook
+          settings:
+            url: http://webhook:8080
+          disableResolveMessage: false

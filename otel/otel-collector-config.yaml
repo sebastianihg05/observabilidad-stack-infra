@@ -1,0 +1,33 @@
+# configuracion del collector de opentelemetry
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  # agrupa las trazas antes de enviarlas
+  batch:
+    timeout: 1s
+    send_batch_size: 1024
+
+  # agrega mi atributo a todas las trazas
+  attributes/entorno:
+    actions:
+      - key: entorno
+        value: laboratorio-seba
+        action: insert
+
+exporters:
+  # manda las trazas a jaeger
+  otlp/jaeger:
+    endpoint: jaeger:4317
+    tls:
+      insecure: true
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [attributes/entorno, batch]
+      exporters: [otlp/jaeger]

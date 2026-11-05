@@ -1,1 +1,144 @@
-services: {}
+# stack de observabilidad completo
+
+services:
+  # ---------- METRICAS ----------
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: obs_prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - monitoreo-net
+    restart: unless-stopped
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: obs_node_exporter
+    ports:
+      - "9100:9100"
+    networks:
+      - monitoreo-net
+    restart: unless-stopped
+
+  snmp_exporter:
+    image: prom/snmp-exporter:latest
+    container_name: obs_snmp_exporter
+    ports:
+      - "9116:9116"
+    networks:
+      - monitoreo-net
+    restart: unless-stopped
+
+  router_sim:
+    build:
+      context: ./snmp
+      dockerfile: Dockerfile
+    container_name: obs_router_sim
+    ports:
+      - "161:161/udp"
+    volumes:
+      - ./snmp/snmpd.conf:/usr/local/etc/snmp/snmpd.conf
+    networks:
+      - monitoreo-net
+    restart: unless-stopped
+
+  # ---------- LOGS ----------
+  loki:
+    image: grafana/loki:2.9.2
+    container_name: obs_loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - monitoreo-net
+    restart: unless-stopped
+
+  promtail:
+    image: grafana/promtail:2.9.2
+    container_name: obs_promtail
+    volumes:
+      - /var/log:/var/log:ro
+      - ./promtail/promtail-config.yml:/etc/promtail/config.yml
+      - ./cloud-logs:/var/cloud-logs:ro
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki
+    networks:
+      - monitoreo-net
+    restart: unless-stopped
+
+  # ---------- VISUALIZACION ----------
+  grafana:
+    image: grafana/grafana:10.2.2
+    container_name: obs_grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - prometheus
+      - loki
+    networks:
+      - monitoreo-net
+    restart: unless-stopped
+
+  # receptor del webhook (solo muestra lo que le llega)
+  webhook:
+    image: mendhak/http-https-echo:latest
+    container_name: obs_webhook
+    ports:
+      - "8081:8080"
+    networks:
+      - monitoreo-net
+    restart: unless-stopped
+
+  # ---------- TRAZAS ----------
+  jaeger:
+    image: jaegertracing/jaeger:latest
+    container_name: obs_jaeger
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+    networks:
+      - monitoreo-net
+    restart: unless-stopped
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: obs_otel_collector
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "4318:4318"
+    depends_on:
+      - jaeger
+    networks:
+      - monitoreo-net
+    restart: unless-stopped
+
+  hotrod:
+    image: jaegertracing/example-hotrod:latest
+    container_name: obs_hotrod
+    ports:
+      - "8080:8080"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
+    command: ["all", "--otel-exporter=otlp"]
+    depends_on:
+      - otel-collector
+    networks:
+      - monitoreo-net
+    restart: unless-stopped
+
+networks:
+  monitoreo-net:
+    ipam:
+      config:
+        - subnet: 172.21.0.0/24

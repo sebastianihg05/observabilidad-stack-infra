@@ -173,15 +173,8 @@ En Jaeger aparecen los servicios `frontend`, `customer`, `driver`, `route`, `mys
 | Lo creado a mano en Grafana desaparece al recrear el contenedor | Grafana no tiene volumen; exporta los cambios a `grafana/provisioning/` o `grafana/dashboards/` y limpia valores como `[REDACTED]`. |
 | Git usa otro repositorio | Ejecuta Git dentro de la carpeta del proyecto, no desde una carpeta superior. |
 
-## Mejoras pendientes
-
-- Volúmenes persistentes para Loki, Prometheus y Grafana.
-- Fijar versiones de las imágenes que hoy usan `latest` (Jaeger, HotROD, OpenTelemetry, Prometheus, exporters y webhook).
-- Alertas de red y disco, además de la de CPU.
-- Reemplazar el receptor de webhook por un canal real (correo o chat).
 
 ## Autores
 
-Héctor Peña - Claudio Ojeda - Vanessa Lagos  — Universidad Andrés Bello.
-                  Sebastián Hidalgo
-
+Héctor Peña - Claudio Ojeda - Vanessa Lagos - Sebastián Hidalgo - Universidad Andrés Bello.
+                
