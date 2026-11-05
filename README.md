@@ -182,4 +182,6 @@ En Jaeger aparecen los servicios `frontend`, `customer`, `driver`, `route`, `mys
 
 ## Autores
 
-Sebastián Hidalgo — Universidad Andrés Bello.
+Héctor Peña - Claudio Ojeda - Vanessa Lagos  — Universidad Andrés Bello.
+                  Sebastián Hidalgo
+
